@@ -3,4 +3,4 @@ def find_first_not_play_video(browser):
 
 
 def is_video_task_completion(browser):
-    return
+    pass
