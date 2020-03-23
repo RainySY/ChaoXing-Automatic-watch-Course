@@ -1,8 +1,9 @@
-/Driver_Notes
+Driver_Notes/
 debug.log
 qr_code.png
 test.py
 msedgedriver.exe
+.vscode/
 # Python 
 
 # Byte-compiled / optimized / DLL files
