@@ -1,36 +1,55 @@
-# def QR_code_sign_in(browser):
-#     print("!!!!!!!!!!!!!!!!!!!!")
-#     browser.switch_to.frame('iframe')
-#     QR_code_element = browser.find_element_by_xpath(
-#         '/html/body/div/div/div/img')  # 获取登录二维码所在标签
-#     print(QR_code_element)
-#     print("!!!!!!!!!!!!!!!!!!!!")
-#     QR_code_src = QR_code_element.get_attribute("src")
-#     print(QR_code_src)
-#     from requests import get
-#     QR_code = get(QR_code_src).content
+def QR_code_sign_in(browser):
+    print("!!!!!!!!!!!!!!!!!!!!")
+    browser.switch_to.frame('iframe')
+    QR_code_element = browser.find_element_by_xpath(
+        '/html/body/div/div/div/img')  # 获取登录二维码所在标签
+    print(QR_code_element)
+    print("!!!!!!!!!!!!!!!!!!!!")
+    QR_code_src = QR_code_element.get_attribute("src")
+    print(QR_code_src)
+    from requests import get
+    QR_code = get(QR_code_src).content
 
-#     with open('qr_code.png', 'wb') as qr:
-#         qr.write(QR_code)
-#     from PIL import Image
-#     QR_img = Image.open('qr_code.png')
-#     QR_img.show()
-#     from selenium.webdriver.support import ui
-#     wait = ui.WebDriverWait(browser, 310)
-#     wait.until(lambda wait_driver: browser.find_element_by_xpath(
-#         '//*[@id="leftmodule"]/div[2]/div/p'))
-#     try:
-#         user_name = browser.find_element_by_xpath(
-#             '//*[@id="leftmodule"]/div[2]/div/p').text
-#     except:
-#         user_name = ""
-#     #     refrush_CQ_code = browser.find_element_by_xpath('/html/body/div/div[1]/div/div/a')
-#     #     refrush_CQ_code.click()
-#     #     QR_code_sign_in(browser.switch_to_default_content())
-#     if user_name:
-#         return True
-#     else:
-#         return False
+    with open('qr_code.png', 'wb') as qr:
+        qr.write(QR_code)
+    from PIL import Image
+    QR_img = Image.open('qr_code.png')
+    QR_img.show()
+    from selenium.webdriver.support import ui
+    wait = ui.WebDriverWait(browser, 310)
+    wait.until(lambda wait_driver: browser.find_element_by_xpath(
+        '//*[@id="leftmodule"]/div[2]/div/p'))
+    try:
+        user_name = browser.find_element_by_xpath(
+            '//*[@id="leftmodule"]/div[2]/div/p').text
+    except:
+        user_name = ""
+    #     refrush_CQ_code = browser.find_element_by_xpath('/html/body/div/div[1]/div/div/a')
+    #     refrush_CQ_code.click()
+    #     QR_code_sign_in(browser.switch_to_default_content())
+    if user_name:
+        return True
+    else:
+        return False
+
+
+def input_usename_and_password(browser):
+    inp = input("请输入账号:")
+    inp_2 = input("请输入密码:")
+    # # inp_3=input("请输入验证码:")
+    # inp_3 = input("请输入验证码:")
+    browser.find_element_by_xpath(
+        '/html/body/div/div[2]/div/div[1]/div[1]/ul/li[2]').click()
+
+    username = browser.find_element_by_id("uin_tips")
+    password = browser.find_element_by_id("pwd_tips")
+    # verycode = browser.find_element_by_id("numcode")
+    username.send_keys(inp)
+    password.send_keys(inp_2)
+    # verycode.send_keys(inp_3)
+    sbm = browser.find_element_by_id("login")
+    # sleep(1)
+    sbm.click()
 
 
 # def main_signIn(browser):
@@ -62,7 +81,7 @@ def wait_sign_in(browser):
 
 def check_sign_in(browser):
     while not wait_sign_in(browser):
-        print("二维码已失效！准备刷新！")
+        # print("二维码已失效！准备刷新！")
         browser.switch_to.frame('iframe')
         browser.find_element_by_xpath(
             '/html/body/div/div[1]/div/div/a').click()

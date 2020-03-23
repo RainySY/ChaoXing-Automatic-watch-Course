@@ -1,6 +1,6 @@
 from selenium import webdriver  # 导入库
 from time import sleep
-from signIn import check_sign_in
+from signIn import QR_code_sign_in, check_sign_in, input_usename_and_password
 
 from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,31 +10,16 @@ options = webdriver.ChromeOptions()
 options.add_argument('disable-infobars')
 options.add_experimental_option('excludeSwitches', ['enable-automation'])
 
+run_type = int(input('请输入运行方式（1、有浏览器窗口，2、无浏览器窗口）：'))
+if run_type == 2:
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
 
 browser = webdriver.Chrome(
     executable_path="./chromedriver.exe", options=options)  # 双引号内添加浏览器驱动的地址
 # browser = webdriver.Edge(executable_path="./msedgedriver.exe")
 url = "http://i.chaoxing.com/"
 browser.get(url)
-
-
-def input_usename_and_password(browser):
-    inp = input("请输入账号:")
-    inp_2 = input("请输入密码:")
-    # # inp_3=input("请输入验证码:")
-    # inp_3 = input("请输入验证码:")
-    browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div/div[1]/div[1]/ul/li[2]').click()
-
-    username = browser.find_element_by_id("uin_tips")
-    password = browser.find_element_by_id("pwd_tips")
-    # verycode = browser.find_element_by_id("numcode")
-    username.send_keys(inp)
-    password.send_keys(inp_2)
-    # verycode.send_keys(inp_3)
-    sbm = browser.find_element_by_id("login")
-    # sleep(1)
-    sbm.click()
 
 
 # 一级页面跳转,进入首页，开始选择课程
@@ -275,12 +260,21 @@ def start_next():
 
 if __name__ == '__main__':
     # input_usename_and_password(browser)
+    if run_type == 2:
+        sign_in_type = int(input('请输入登陆方式（1、扫码登录，2、账号密码登录）：'))
+        if sign_in_type == 1:
+            QR_code_sign_in(browser)
+        elif sign_in_type == 2:
+            input_usename_and_password(browser)
+        else:
+            print('输入错误！自动选择账号密码登录！')
+            input_usename_and_password(browser)
 
     user_name = check_sign_in(browser)
     print(user_name, '登陆成功！欢迎回来！')
     while True:
-        # schedule_name = input('请输入您要学习的课程名称：')
-        have_schedule = level_1st('中国近现代史纲要')
+        schedule_name = input('请输入您要学习的课程名称：')
+        have_schedule = level_1st(schedule_name)
 
         # bool_into_video_window = False
         while (not have_schedule) or (not into_vedio_window()):
@@ -337,27 +331,14 @@ if __name__ == '__main__':
 
         browser.close()
         browser.switch_to.window(browser.window_handles[0])
-        level_1st('中国近现代史纲要')
+        level_1st(schedule_name)
         browser.close()
         browser.switch_to.window(browser.window_handles[0])
         if not into_vedio_window():
-            choice = int(input('是否继续学习其他课程：（1、继续，2、停止并关闭）：'))
+            choice = int(input('是否继续学习其他课程（1、继续，2、停止并关闭）：'))
             if choice == 1:
                 continue
             else:
                 break
-            # time_tuple = if_vedio_finished()
-        #     while time_tuple[0] != time_tuple[1]:
-        #         time_tuple = if_vedio_finished()
-        #         try:
-        #             if_have_2nd_class(time_tuple[0], time_tuple[1])
-        #             if time_tuple[0] == time_tuple[1]:
-        #                 print("开始测试第二节课时间")
-        #                 time_tuple_2 = if_vedio_finished()
-        #                 while time_tuple_2[0] != time_tuple_2[1]:
-        #                     time_tuple_2 = if_vedio_finished()
-        #                     start_next(time_tuple_2[0], time_tuple_2[1])
-        #         except:
-        #             start_next(time_tuple[0], time_tuple[1])
 
         browser.quit()
