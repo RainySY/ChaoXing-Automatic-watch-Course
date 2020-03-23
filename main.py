@@ -1,9 +1,17 @@
+# !/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @Time  : 2020/3/22 13:05
+# @Author: 冬酒暖阳
+# @File  : main.py
+
+
 from selenium import webdriver  # 导入库
 from time import sleep
-from signIn import QR_code_sign_in, check_sign_in, input_usename_and_password
+# from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException
 
-from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException
+
 from selenium.webdriver.support.ui import WebDriverWait
+from signIn import QR_code_sign_in, check_sign_in, input_usename_and_password
 
 
 options = webdriver.ChromeOptions()

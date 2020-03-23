@@ -1,3 +1,10 @@
+# !/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @Time  : 2020/3/22 13:05
+# @Author: 冬酒暖阳
+# @File  : signIn.py
+
+
 def QR_code_sign_in(browser):
     print("!!!!!!!!!!!!!!!!!!!!")
     browser.switch_to.frame('iframe')
