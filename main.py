@@ -50,6 +50,7 @@ def level_1st(schedule_name):
     # print(schedule_list)
     # print(len(schedule_list))
     # print(schedule_list)
+    #
     for i in range(1, len(schedule_list)):
         schedule = browser.find_element_by_xpath(
             f'/html/body/div[1]/div[2]/div[2]/ul/li[{i}]/div[2]/h3/a')
