@@ -7,10 +7,12 @@
 
 from selenium import webdriver  # 导入库
 from time import sleep
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import WebDriverException
 # from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException
 
 
-from selenium.webdriver.support.ui import WebDriverWait
+from getChromeDriver import getChromeDriver
 from signIn import QR_code_sign_in, check_sign_in, input_usename_and_password
 
 
@@ -23,8 +25,18 @@ if run_type == 2:
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
 
-browser = webdriver.Chrome(
-    executable_path="./chromedriver.exe", options=options)  # 双引号内添加浏览器驱动的地址
+# try:
+#     with open('./chromedriver.exe') as fp:
+#         pass
+# except :
+#     print("无chromedriver.exe")
+try:
+    browser = webdriver.Chrome(
+        executable_path="./chromedriver.exe", options=options)  # 双引号内添加浏览器驱动的地址
+except WebDriverException:
+    getChromeDriver()
+    browser = webdriver.Chrome(
+        executable_path="./chromedriver.exe", options=options)  # 双引号内添加浏览器驱动的地址
 # browser = webdriver.Edge(executable_path="./msedgedriver.exe")
 url = "http://i.chaoxing.com/"
 browser.get(url)
